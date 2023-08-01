@@ -13,9 +13,10 @@ I got a strange problem that the macOS's booting procedure was quited after sele
 | Storages                        | M.2 SSD x 4                              |
 | BIOS Version                    | F7                                       |
 
-## Current OpenCore Version
+## Current Version
 
-0.9.3
+- OpenCore 0.9.3
+- macOS Ventura 13.5
 
 ## Works fine
 
