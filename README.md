@@ -15,8 +15,10 @@ I got a strange problem that the macOS's booting procedure was quited after sele
 
 ## Current Version
 
-- OpenCore 0.9.3
-- macOS Ventura 13.5
+- OpenCore 1.0.1
+- macOS Ventura 13.6.3
+
+![neofetch](./pics/neofetch.png)
 
 ## Works fine
 
@@ -28,7 +30,6 @@ I got a strange problem that the macOS's booting procedure was quited after sele
 ## Known Issues
 
 - Can't sleep in both Windows 11 and macOS after booting from OpenCore. If boot from Windows 11's bootloader directly, sleeps as expected. This config may need to be fixed later.
-- Google Chrome tab collapsed occasionally. Tried to close hardware acceleration options but didn't work, after reopening the same tabs for several times it works fine for that site.
 
 ## BIOS Settings
 
