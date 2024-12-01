@@ -15,8 +15,8 @@ I got a strange problem that the macOS's booting procedure was quited after sele
 
 ## Current Version
 
-- OpenCore 1.0.1
-- macOS Ventura 13.6.3
+- OpenCore 1.0.2
+- macOS Sequoia 15.0
 
 ![neofetch](./pics/neofetch.png)
 
@@ -108,3 +108,52 @@ I got a strange problem that the macOS's booting procedure was quited after sele
 - [SSDTTime (DSDT Dump and SSDT creation)](https://github.com/corpnewt/SSDTTime)
 
 - [GenSMBIOS (Generate Serial and UUID)](https://github.com/corpnewt/GenSMBIOS)
+
+## Wifi & Bluetooth on macOS Sequoia
+
+### Steps
+
+1. `AMFI` block
+
+Add kext: [AMFIPass.kext](https://github.com/bluppus20/AMFIPass/releases)
+
+**No need to** add boot-args `NVRAM>Add>UUID>boot-args|-amfipassbeta` for `AMFIPass.kext` while its version isabove v1.4.0. (UUID:7C436110-AB2A-4BBB-A880-FE41995C9F82)
+
+2. `csi-active-config`
+
+Set value `NVRAM>Add>UUID>csr-active-config | 03080000`(UUID:7C436110-AB2A-4BBB-A880-FE41995C9F82). And remember to **reset NVRAM** while starting macOS.
+
+3. Disable `SecureBootModel` if needed
+
+`Misc>Security>SecureBootModel`: `Disabled` 
+
+4. Block `com.apple.iokit.IOSkywalkFamily` kext
+
+`Kernel>Block>`: with identifier `com.apple.iokit.IOSkywalkFamily` and Strategy `Exclude`.
+
+5. Add [kexts](https://github.com/dortania/OpenCore-Legacy-Patcher/tree/main/payloads/Kexts/Wifi) in order as follows
+
+   - IOSkywalkFamily.kext
+   - IO80211FamilyLegacy.kext
+   - IO80211FamilyLegacy.kext>AirPortBrcmNIC.kext
+
+   it's better to set MinKernel to 23.0.0.
+
+6. Add boot-args to fix web-based applications crashes  such as Postman, Dingtalk.
+
+   - `revpatch=sbvmm`（RestrictEvents.kext need）
+
+   - `ipc_control_port_options=0`
+
+   reboot
+
+6. Download and Install [OpenCore Legacy Patcher（OCLP）](https://github.com/dortania/OpenCore-Legacy-Patcher/releases), and then do as follows:
+
+   OCLP.app>Post-Install Root Patch>Start Root Patching>Reboot
+
+### Reference
+
+- https://www.cnblogs.com/wkvip/p/17787077.html
+- https://bbs.pcbeta.com/viewthread-1992658-1-1.html
+- https://heipg.cn/tutorial/patch-brcm-wireless-card-macos-sonoma.html
+
